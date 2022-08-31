@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import TrackPlayer from 'react-native-track-player';
 import {
   SafeAreaView,
   StatusBar,
@@ -7,14 +6,17 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
+import {Audio} from 'expo-av';
+import TrackPlayer from 'react-native-track-player';
 
 import { Button, PlayerControls, Progress, TrackInfo } from './components';
 import { SetupService, QueueInitalTracksService } from './services';
 import { useCurrentTrack } from './hooks';
 
-const App: React.FC = () => {
+const App = () => {
   const track = useCurrentTrack();
-  const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
+  const [sound, setSound] = useState(null);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   useEffect(() => {
     async function run() {
@@ -55,6 +57,17 @@ const App: React.FC = () => {
       <View style={styles.actionRowContainer}>
         <PlayerControls />
       </View>
+      <Button
+          title="Expo-av play"
+          onPress={async () => {
+            const { sound } = await Audio.Sound.createAsync(
+                require('./assets/resources/pure.m4a')
+            );
+            setSound(sound);
+            // await sound.playAsync();
+          }}
+          type="primary"
+      />
     </SafeAreaView>
   );
 };
