@@ -7,56 +7,57 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Audio} from 'expo-av';
-import TrackPlayer from 'react-native-track-player';
+// import TrackPlayer from 'react-native-track-player';
 
-import { Button, PlayerControls, Progress, TrackInfo } from './components';
-import { SetupService, QueueInitalTracksService } from './services';
-import { useCurrentTrack } from './hooks';
+import { Button } from './components';
+// import { Button, PlayerControls, Progress, TrackInfo } from './components';
+// import { SetupService, QueueInitalTracksService } from './services';
+// import { useCurrentTrack } from './hooks';
 
 const App = () => {
-  const track = useCurrentTrack();
+  // const track = useCurrentTrack();
   const [sound, setSound] = useState(null);
-  const [isPlayerReady, setIsPlayerReady] = useState(false);
+  // const [isPlayerReady, setIsPlayerReady] = useState(false);
 
-  useEffect(() => {
-    async function run() {
-      const isSetup = await SetupService();
-      setIsPlayerReady(isSetup);
+  // useEffect(() => {
+  //   async function run() {
+  //     // const isSetup = await SetupService();
+  //     setIsPlayerReady(isSetup);
+  //
+  //     const queue = await TrackPlayer.getQueue();
+  //     if (isSetup && queue.length <= 0) {
+  //       await QueueInitalTracksService();
+  //     }
+  //   }
+  //
+  //   run();
+  // }, []);
 
-      const queue = await TrackPlayer.getQueue();
-      if (isSetup && queue.length <= 0) {
-        await QueueInitalTracksService();
-      }
-    }
-
-    run();
-  }, []);
-
-  if (!isPlayerReady) {
-    return (
-      <SafeAreaView style={styles.screenContainer}>
-        <ActivityIndicator />
-      </SafeAreaView>
-    );
-  }
+  // if (!isPlayerReady) {
+  //   return (
+  //     <SafeAreaView style={styles.screenContainer}>
+  //       <ActivityIndicator />
+  //     </SafeAreaView>
+  //   );
+  // }
 
   return (
     <SafeAreaView style={styles.screenContainer}>
       <StatusBar barStyle={'light-content'} />
-      <View style={styles.contentContainer}>
-        <View style={styles.topBarContainer}>
-          <Button
-            title="Queue"
-            onPress={() => console.log('TODO: implement queue interface')}
-            type="primary"
-          />
-        </View>
-        <TrackInfo track={track} />
-        <Progress />
-      </View>
-      <View style={styles.actionRowContainer}>
-        <PlayerControls />
-      </View>
+      {/*<View style={styles.contentContainer}>*/}
+      {/*  <View style={styles.topBarContainer}>*/}
+      {/*    <Button*/}
+      {/*      title="Queue"*/}
+      {/*      onPress={() => console.log('TODO: implement queue interface')}*/}
+      {/*      type="primary"*/}
+      {/*    />*/}
+      {/*  </View>*/}
+      {/*  <TrackInfo track={track} />*/}
+      {/*  <Progress />*/}
+      {/*</View>*/}
+      {/*<View style={styles.actionRowContainer}>*/}
+      {/*  <PlayerControls />*/}
+      {/*</View>*/}
       <Button
           title="Expo-av play"
           onPress={async () => {
@@ -64,7 +65,14 @@ const App = () => {
                 require('./assets/resources/pure.m4a')
             );
             setSound(sound);
-            // await sound.playAsync();
+            await sound.playAsync();
+          }}
+          type="primary"
+      />
+      <Button
+          title="Expo-av stop"
+          onPress={async () => {
+            await sound.stopAsync()
           }}
           type="primary"
       />
